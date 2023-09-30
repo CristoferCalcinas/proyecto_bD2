@@ -11,14 +11,14 @@ export async function POST(request) {
         // Leer el contenido del cuerpo de la solicitud
         const requestBody = await request.text();
 
-        //console.log("POST:", requestBody);
+        console.log("POST:", requestBody);
         const resp = await enviarQuery(requestBody);
         console.log("-----------------")
         console.log(resp)
         console.log("-----------------")
-        return NextResponse.json("POST response");
+        return NextResponse.json(resp);
     } catch (error) {
-        console.error("Error:", error);
+        console.log("Error:", error);
         return NextResponse.error("Error occurred", 500);
     }
 }
