@@ -1,7 +1,8 @@
-import Privider from "@/store/privider";
 import "./globals.css";
-import { Inter } from "next/font/google";
+import Privider from "@/store/privider";
 import SideBar from "@/components/SideBar";
+import { Inter } from "next/font/google";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,7 +16,10 @@ export default function RootLayout({ children }) {
     <html lang="es" className="h-full">
       <Privider>
         <body className={`${inter.className} h-full`}>
-          <SideBar>{children}</SideBar>
+          <SideBar>
+            {children}
+            <Toaster richColors />
+          </SideBar>
         </body>
       </Privider>
     </html>

@@ -1,12 +1,15 @@
 "use client";
-import { errorServer } from "@/store/textAreaSlicel";
+import { addContentQuery, errorServer } from "@/store/textAreaSlicel";
 import { enviarConsultaDB } from "@/store/thunks";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BotonEnviar from "./BotonEnviar";
+import { toast } from "sonner";
 
 export default function TextArea() {
-  const { valueTextArea } = useSelector((state) => state.textArea);
+  const { valueTextArea, error, messageError } = useSelector(
+    (state) => state.textArea
+  );
   const dispatch = useDispatch();
   const [textArea, settextArea] = useState(valueTextArea);
   const onChange = (e) => {
@@ -36,11 +39,14 @@ export default function TextArea() {
         const data = await response.json();
         if (typeof data === "string") {
           dispatch(errorServer({ data, error: true }));
+          toast.error(data);
+        } else {
+          dispatch(addContentQuery(data));
+          toast.success("Consulta exitosa");
         }
         console.log(data); // Mostrar los datos en la consola
       } else {
         console.log("Error en la respuesta:", response.status);
-        console.log(response);
       }
     } catch (error) {
       console.log(error);

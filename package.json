@@ -16,7 +16,8 @@
     "pg": "^8.11.3",
     "react": "latest",
     "react-dom": "latest",
-    "react-redux": "^8.1.2"
+    "react-redux": "^8.1.2",
+    "sonner": "^1.0.3"
   },
   "devDependencies": {
     "autoprefixer": "latest",

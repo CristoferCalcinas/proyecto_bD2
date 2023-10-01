@@ -6,6 +6,7 @@ export const TextAreaSlice = createSlice({
         valueTextArea: 'SELECT * FROM estudiantes1',
         error: false,
         messageError: null,
+        contentQuery: null
     },
     reducers: {
         enviarConsulta: (state, { payload }) => {
@@ -14,10 +15,14 @@ export const TextAreaSlice = createSlice({
         errorServer: (state, { payload }) => {
             state.error = payload.error;
             state.messageError = payload.data;
+        },
+        addContentQuery: (state, { payload }) => {
+            state.contentQuery = payload;
+
         }
     }
 });
 
 
 // Action creators are generated for each case reducer function
-export const { enviarConsulta, errorServer } = TextAreaSlice.actions;
+export const { enviarConsulta, errorServer, addContentQuery } = TextAreaSlice.actions;
