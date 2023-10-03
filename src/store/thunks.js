@@ -1,11 +1,7 @@
-import { enviarConsulta, errorServer } from "./textAreaSlicel"
+import { enviarConsulta } from "./textAreaSlicel"
 
 export const enviarConsultaDB = (consulta) => {
-    return async (dispatch) => {
-        if (!consulta.length > 0) {
-            dispatch(errorServer({ error: true, data: 'No se ha ingresado una consulta' }));
-            return;
-        };
+    return async (dispatch) => {      
         dispatch(enviarConsulta(consulta));
     }
 }

@@ -3,21 +3,29 @@ import { createSlice } from '@reduxjs/toolkit';
 export const TextAreaSlice = createSlice({
     name: 'TextArea',
     initialState: {
-        valueTextArea: 'SELECT * FROM estudiantes1',
+        valueTextArea: 'SELECT * FROM estudiantes1;',
         error: false,
-        messageError: null,
+        messageError: "",
         contentQuery: null
     },
     reducers: {
         enviarConsulta: (state, { payload }) => {
             state.valueTextArea = payload;
+            state.error = false;
+            state.messageError = "";
+            state.contentQuery = null;
         },
         errorServer: (state, { payload }) => {
+            state.valueTextArea = "";
             state.error = payload.error;
             state.messageError = payload.data;
+            state.contentQuery = null;
         },
         addContentQuery: (state, { payload }) => {
-            state.contentQuery = payload;
+            state.valueTextArea = "";
+            state.error = payload.messageError;
+            state.contentQuery = payload.data;
+            state.messageError = payload.message;
 
         }
     }
