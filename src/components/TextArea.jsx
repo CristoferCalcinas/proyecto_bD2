@@ -60,27 +60,6 @@ export default function TextArea() {
           console.log("Error en la respuesta:", response.status);
         }
       }
-
-      // const response = await fetch("http://localhost:3000/api/conectBack", {
-      //   method: "POST",
-      //   body: textArea,
-      //   headers: {
-      //     "Content-Type": "text/plain",
-      //   },
-      // });
-      // if (response.ok) {
-      //   const data = await response.json();
-      //   if (typeof data === "string") {
-      //     dispatch(errorServer({ data, error: true }));
-      //     toast.error(data);
-      //   } else {
-      //     dispatch(addContentQuery({ data, error: false, messageError: "" }));
-      //     toast.success("Consulta exitosa");
-      //   }
-      //   console.log(data); // Mostrar los datos en la consola
-      // } else {
-      //   console.log("Error en la respuesta:", response.status);
-      // }
     } catch (error) {
       console.log(error);
     }
@@ -127,7 +106,7 @@ export default function TextArea() {
         <BotonEnviar onSubmitDatabase={onSubmitDatabase} />
       </div>
       <div className="mt-2 flex">
-        <div className="w-7 text-right text-gray-800 container py-5 flex flex-col justify-start items-center font-bold">
+        <div className="w-10 text-right text-gray-800 container py-5 flex flex-col justify-start items-center font-bold">
           {lineNumbers.map((lineNumber) => (
             <div key={lineNumber}>{lineNumber}</div>
           ))}
