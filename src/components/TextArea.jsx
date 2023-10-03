@@ -30,26 +30,57 @@ export default function TextArea() {
     if (textArea === "") return toast.error("No hay consulta para enviar");
     dispatch(enviarConsultaDB(textArea));
     try {
-      const response = await fetch("http://localhost:3000/api/conectBack", {
-        method: "POST",
-        body: textArea,
-        headers: {
-          "Content-Type": "text/plain",
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        if (typeof data === "string") {
-          dispatch(errorServer({ data, error: true }));
-          toast.error(data);
+      const consultas = textArea.split(";").map((query) => query.trim());
+
+      // Eliminar consultas vacías
+      const consultasValidas = consultas.filter((query) => query.length > 0);
+      console.log("consultasValidas");
+      console.log(consultasValidas);
+
+      // enviar las consultas una por una al backend
+      for (const consulta of consultasValidas) {
+        const response = await fetch("http://localhost:3000/api/conectBack", {
+          method: "POST",
+          body: consulta,
+          headers: {
+            "Content-Type": "text/plain",
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          if (typeof data === "string") {
+            dispatch(errorServer({ data, error: true }));
+            toast.error(data);
+          } else {
+            dispatch(addContentQuery({ data, error: false, messageError: "" }));
+            toast.success("Consulta exitosa");
+          }
+          console.log(data); // Mostrar los datos en la consola
         } else {
-          dispatch(addContentQuery({ data, error: false, messageError: "" }));
-          toast.success("Consulta exitosa");
+          console.log("Error en la respuesta:", response.status);
         }
-        console.log(data); // Mostrar los datos en la consola
-      } else {
-        console.log("Error en la respuesta:", response.status);
       }
+
+      // const response = await fetch("http://localhost:3000/api/conectBack", {
+      //   method: "POST",
+      //   body: textArea,
+      //   headers: {
+      //     "Content-Type": "text/plain",
+      //   },
+      // });
+      // if (response.ok) {
+      //   const data = await response.json();
+      //   if (typeof data === "string") {
+      //     dispatch(errorServer({ data, error: true }));
+      //     toast.error(data);
+      //   } else {
+      //     dispatch(addContentQuery({ data, error: false, messageError: "" }));
+      //     toast.success("Consulta exitosa");
+      //   }
+      //   console.log(data); // Mostrar los datos en la consola
+      // } else {
+      //   console.log("Error en la respuesta:", response.status);
+      // }
     } catch (error) {
       console.log(error);
     }

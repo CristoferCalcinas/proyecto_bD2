@@ -16,7 +16,10 @@ export async function POST(request) {
         console.log("-----------------")
         console.log(resp)
         console.log("-----------------")
-        return NextResponse.json(resp);
+        // Usar un operador ternario para condicionar la respuesta
+        const jsonResponse = resp !== undefined ? resp : [];
+        return NextResponse.json(jsonResponse);
+
     } catch (error) {
         console.log("Error:", error);
         return NextResponse.error("Error occurred", 500);
