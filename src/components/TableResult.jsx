@@ -39,7 +39,7 @@ export default function TableResult() {
             Tablas Existentes
           </h2>
           <div
-            className={`flex justify-between text-center mt-5 
+            className={`flex flex-wrap justify-between text-center mt-5 gap-4
           ${Tables?.length > 0 ? "" : "hidden"}`}
           >
             {Tables?.map((table, index) => {
@@ -47,6 +47,7 @@ export default function TableResult() {
                 <div
                   key={index}
                   onClick={() => handleTableQuery(table?.tablename)}
+                  className="cursor-pointer bg-white rounded-md shadow-xl p-4"
                 >
                   <span className="font-bold ">Tabla - {index + 1}</span>
                   <p>{table.tablename}</p>
