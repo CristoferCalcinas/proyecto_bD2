@@ -27,7 +27,10 @@ export default function TextArea() {
    * Maneja la respuesta del servidor y actualiza el estado en consecuencia.
    */
   const onSubmitDatabase = async () => {
-    if (textArea === "") return toast.error("No hay consulta para enviar");
+    if (textArea === "")
+      return toast.error("No hay consulta para enviar", {
+        duration: 5000,
+      });
     dispatch(enviarConsultaDB(textArea));
     try {
       const consultas = textArea.split(";").map((query) => query.trim());
@@ -50,7 +53,7 @@ export default function TextArea() {
           const data = await response.json();
           if (typeof data === "string") {
             dispatch(errorServer({ data, error: true }));
-            toast.error(data);
+            toast.error(data, { duration: 5000 });
           } else {
             dispatch(addContentQuery({ data, error: false, messageError: "" }));
             toast.success("Consulta exitosa");
