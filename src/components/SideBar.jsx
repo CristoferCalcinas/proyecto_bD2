@@ -1,39 +1,47 @@
 "use client";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
-  CalendarIcon,
-  ChartPieIcon,
   Cog6ToothIcon,
-  DocumentDuplicateIcon,
-  FolderIcon,
-  HomeIcon,
-  UsersIcon,
   XMarkIcon,
+  ArrowPathIcon,
 } from "@heroicons/react/24/outline";
-
-const navigation = [
-  { name: "SQL File", href: "#", icon: HomeIcon, current: true },
-  { name: "Lorem1", href: "#", icon: UsersIcon, current: false },
-  { name: "Lorem2", href: "#", icon: FolderIcon, current: false },
-  { name: "Lorem3", href: "#", icon: CalendarIcon, current: false },
-  { name: "Lorem4", href: "#", icon: DocumentDuplicateIcon, current: false },
-  { name: "Lorem5", href: "#", icon: ChartPieIcon, current: false },
-];
-const teams = [
-  { id: 1, name: "LoremIpsum1", href: "#", initial: "L", current: false },
-  { id: 2, name: "LoremIpsum2", href: "#", initial: "L", current: false },
-  { id: 3, name: "LoremIpsum3", href: "#", initial: "L", current: false },
-];
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+import { showTablesDataBase } from "@/db/showTables";
+import { handleTableQuery } from "@/db/handleTableQuery";
+import { useDispatch } from "react-redux";
+import { addContentQuery } from "@/store/textAreaSlicel";
+import { toast } from "sonner";
 
 export default function SideBar({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [ObjectBrowserPanel, setObjectBrowserPanel] = useState({
+    dataNameDataBase: null,
+    dataTables: null,
+  });
 
+  const fetchData = async () => {
+    try {
+      const { dataNameDataBase, dataTables } = await showTablesDataBase();
+      setObjectBrowserPanel({
+        dataNameDataBase,
+        dataTables,
+      });
+    } catch (error) {
+      console.error("Error al actualizar las tablas:", error);
+    }
+  };
+
+  useEffect(() => {
+    // Llamar a fetchData() para obtener los datos iniciales
+    fetchData();
+  }, []);
+  const dispatch = useDispatch();
+
+  const handleConsult = async (tableName) => {
+    const resp = await handleTableQuery(tableName);
+    dispatch(addContentQuery({ data: resp, error: false, messageError: "" }));
+  };
   return (
     <>
       <div>
@@ -90,75 +98,7 @@ export default function SideBar({ children }) {
                     </div>
                   </Transition.Child>
                   <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4 pt-10">
-                    <nav className="flex flex-1 flex-col">
-                      <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                        <li>
-                          <ul role="list" className="-mx-2 space-y-1">
-                            {navigation.map((item) => (
-                              <li key={item.name}>
-                                <a
-                                  href={item.href}
-                                  className={classNames(
-                                    item.current
-                                      ? "bg-indigo-700 text-white"
-                                      : "text-indigo-200 hover:text-white hover:bg-indigo-700",
-                                    "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                                  )}
-                                >
-                                  <item.icon
-                                    className={classNames(
-                                      item.current
-                                        ? "text-white"
-                                        : "text-indigo-200 group-hover:text-white",
-                                      "h-6 w-6 shrink-0"
-                                    )}
-                                    aria-hidden="true"
-                                  />
-                                  {item.name}
-                                </a>
-                              </li>
-                            ))}
-                          </ul>
-                        </li>
-                        <li>
-                          <div className="text-xs font-semibold leading-6 text-indigo-200">
-                            Your teams
-                          </div>
-                          <ul role="list" className="-mx-2 mt-2 space-y-1">
-                            {teams.map((team) => (
-                              <li key={team.name}>
-                                <a
-                                  href={team.href}
-                                  className={classNames(
-                                    team.current
-                                      ? "bg-indigo-700 text-white"
-                                      : "text-indigo-200 hover:text-white hover:bg-indigo-700",
-                                    "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                                  )}
-                                >
-                                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-indigo-400 bg-indigo-500 text-[0.625rem] font-medium text-white">
-                                    {team.initial}
-                                  </span>
-                                  <span className="truncate">{team.name}</span>
-                                </a>
-                              </li>
-                            ))}
-                          </ul>
-                        </li>
-                        <li className="mt-auto">
-                          <a
-                            href="#"
-                            className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white"
-                          >
-                            <Cog6ToothIcon
-                              className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white"
-                              aria-hidden="true"
-                            />
-                            Settings
-                          </a>
-                        </li>
-                      </ul>
-                    </nav>
+                    <nav className="flex flex-1 flex-col"></nav>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
@@ -171,73 +111,79 @@ export default function SideBar({ children }) {
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4 pt-10">
             <nav className="flex flex-1 flex-col">
-              <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                <li>
-                  <ul role="list" className="-mx-2 space-y-1">
-                    {navigation.map((item) => (
-                      <li key={item.name}>
-                        <a
-                          href={item.href}
-                          className={classNames(
-                            item.current
-                              ? "bg-indigo-700 text-white"
-                              : "text-indigo-200 hover:text-white hover:bg-indigo-700",
-                            "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                          )}
-                        >
-                          <item.icon
-                            className={classNames(
-                              item.current
-                                ? "text-white"
-                                : "text-indigo-200 group-hover:text-white",
-                              "h-6 w-6 shrink-0"
-                            )}
-                            aria-hidden="true"
-                          />
-                          {item.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-                <li>
-                  <div className="text-xs font-semibold leading-6 text-indigo-200">
-                    Your teams
-                  </div>
-                  <ul role="list" className="-mx-2 mt-2 space-y-1">
-                    {teams.map((team) => (
-                      <li key={team.name}>
-                        <a
-                          href={team.href}
-                          className={classNames(
-                            team.current
-                              ? "bg-indigo-700 text-white"
-                              : "text-indigo-200 hover:text-white hover:bg-indigo-700",
-                            "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                          )}
-                        >
-                          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-indigo-400 bg-indigo-500 text-[0.625rem] font-medium text-white">
-                            {team.initial}
-                          </span>
-                          <span className="truncate">{team.name}</span>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-                <li className="mt-auto">
-                  <a
-                    href="#"
+              <div role="list" className="flex flex-1 flex-col gap-y-7">
+                <div>
+                  <header>
+                    <h2 className="text-xl font-extrabold text-indigo-200 uppercase tracking-wider mb-10">
+                      Base de Datos
+                    </h2>
+
+                    <div className="my-5 flex justify-between">
+                      {ObjectBrowserPanel.dataNameDataBase &&
+                        ObjectBrowserPanel.dataNameDataBase.map(
+                          (data, index) => {
+                            return (
+                              <div key={index}>
+                                <h3 className="text-xl font-bold text-white tracking-widest">
+                                  <span className="text-xs font-normal tracking-normal mr-2">
+                                    DB:{"   "}
+                                  </span>
+                                  {data.current_database}
+                                </h3>
+                              </div>
+                            );
+                          }
+                        )}
+                      <button
+                        onClick={() => {
+                          fetchData();
+                          toast.success("Actualizado con éxito");
+                        }}
+                      >
+                        <ArrowPathIcon className="h-6 w-6 text-indigo-200 hover:text-white hover:transform hover:scale-125 transition-all duration-300 ease-in-out" />
+                      </button>
+                    </div>
+                  </header>
+                  <main>
+                    <span className="text-xs font-normal tracking-normal text-white">
+                      TABLAS:{" "}
+                    </span>
+                    <div className="space-y-2 flex flex-col pl-5">
+                      {ObjectBrowserPanel.dataTables &&
+                        ObjectBrowserPanel.dataTables.map(
+                          (dataTables, index) => {
+                            return (
+                              <div
+                                key={index}
+                                className="rounded-md bg-white/10 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20 text-center"
+                                onClick={() =>
+                                  handleConsult(dataTables?.tablename)
+                                }
+                              >
+                                <h3 className="text-sm font-medium text-white">
+                                  {dataTables.tablename}
+                                </h3>
+                              </div>
+                            );
+                          }
+                        )}
+                    </div>
+                  </main>
+                </div>
+
+                <div className="mt-auto">
+                  <button
                     className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white"
+                    onClick={() => {}}
                   >
                     <Cog6ToothIcon
                       className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white"
                       aria-hidden="true"
                     />
-                    Settings
-                  </a>
-                </li>
-              </ul>
+                    Configuración
+                  </button>
+                </div>
+              </div>
             </nav>
           </div>
         </div>
