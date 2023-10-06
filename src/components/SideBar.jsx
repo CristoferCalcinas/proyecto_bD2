@@ -124,7 +124,7 @@ export default function SideBar({ children }) {
                           (data, index) => {
                             return (
                               <div key={index}>
-                                <h3 className="text-xl font-bold text-white tracking-widest">
+                                <h3 className="text-xl font-bold text-white tracking-widest flex justify-center items-center">
                                   <span className="text-xs font-normal tracking-normal mr-2">
                                     DB:{"   "}
                                   </span>
@@ -148,7 +148,7 @@ export default function SideBar({ children }) {
                     <span className="text-xs font-normal tracking-normal text-white">
                       TABLAS:{" "}
                     </span>
-                    <div className="space-y-2 flex flex-col pl-5">
+                    <div className="space-y-2 flex flex-col pl-5 mt-2">
                       {ObjectBrowserPanel.dataTables &&
                         ObjectBrowserPanel.dataTables.map(
                           (dataTables, index) => {
