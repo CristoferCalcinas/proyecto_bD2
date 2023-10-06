@@ -12,8 +12,10 @@ import { handleTableQuery } from "@/db/handleTableQuery";
 import { useDispatch } from "react-redux";
 import { addContentQuery } from "@/store/textAreaSlicel";
 import { toast } from "sonner";
+import ChangeUserMode from "./ChangeUserMode";
 
 export default function SideBar({ children }) {
+  const [openConfigDialog, setOpenConfigDialog] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [ObjectBrowserPanel, setObjectBrowserPanel] = useState({
     dataNameDataBase: null,
@@ -33,7 +35,6 @@ export default function SideBar({ children }) {
   };
 
   useEffect(() => {
-    // Llamar a fetchData() para obtener los datos iniciales
     fetchData();
   }, []);
   const dispatch = useDispatch();
@@ -174,13 +175,20 @@ export default function SideBar({ children }) {
                 <div className="mt-auto">
                   <button
                     className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white"
-                    onClick={() => {}}
+                    onClick={() => {
+                      setOpenConfigDialog(true);
+                    }}
                   >
                     <Cog6ToothIcon
                       className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white"
                       aria-hidden="true"
                     />
                     Configuración
+                    {openConfigDialog && (
+                      <ChangeUserMode openParam={openConfigDialog} 
+                      setOpenParam={setOpenConfigDialog}
+                      />
+                    )}
                   </button>
                 </div>
               </div>

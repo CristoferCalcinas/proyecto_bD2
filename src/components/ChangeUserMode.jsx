@@ -1,13 +1,12 @@
+"use client";
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
 
-export default function ChangeUserMode() {
-  const [open, setOpen] = useState(true);
-
+export default function ChangeUserMode({ openParam, setOpenParam }) {
   return (
-    <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={setOpen}>
+    <Transition.Root show={openParam} as={Fragment}>
+      <Dialog as="div" className="relative z-10" onClose={setOpenParam}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -44,12 +43,12 @@ export default function ChangeUserMode() {
                       as="h3"
                       className="text-base font-semibold leading-6 text-gray-900"
                     >
-                      Payment successful
+                      Quieres cambiar de modo de usuario?
                     </Dialog.Title>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Consequatur amet labore.
+                        Si cambias de modo de usuario, se cerrará la sesión
+                        actual.
                       </p>
                     </div>
                   </div>
@@ -58,7 +57,10 @@ export default function ChangeUserMode() {
                   <button
                     type="button"
                     className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    onClick={() => setOpen(false)}
+                    onClick={() => {
+                      setOpenParam(false);
+                      console.log("cambiar de usuario")
+                    }}
                   >
                     Go back to dashboard
                   </button>
