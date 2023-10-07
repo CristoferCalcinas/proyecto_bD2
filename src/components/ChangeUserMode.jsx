@@ -1,9 +1,13 @@
 "use client";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
 
 export default function ChangeUserMode({ openParam, setOpenParam }) {
+  const closeModal = () => {
+    setOpenParam(false);
+    window.location.href = "/changeUser";
+  };
   return (
     <Transition.Root show={openParam} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpenParam}>
@@ -57,12 +61,9 @@ export default function ChangeUserMode({ openParam, setOpenParam }) {
                   <button
                     type="button"
                     className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    onClick={() => {
-                      setOpenParam(false);
-                      console.log("cambiar de usuario")
-                    }}
+                    onClick={closeModal}
                   >
-                    Go back to dashboard
+                    Cambiar de usuario
                   </button>
                 </div>
               </Dialog.Panel>

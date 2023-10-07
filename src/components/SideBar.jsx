@@ -149,7 +149,7 @@ export default function SideBar({ children }) {
                     <span className="text-xs font-normal tracking-normal text-white">
                       TABLAS:{" "}
                     </span>
-                    <div className="space-y-2 flex flex-col pl-5 mt-2">
+                    <div className="space-y-2 flex flex-col mt-2">
                       {ObjectBrowserPanel.dataTables &&
                         ObjectBrowserPanel.dataTables.map(
                           (dataTables, index) => {
@@ -161,7 +161,7 @@ export default function SideBar({ children }) {
                                   handleConsult(dataTables?.tablename)
                                 }
                               >
-                                <h3 className="text-sm font-medium text-white">
+                                <h3 className="text-sm font-medium text-white tracking-widest">
                                   {dataTables.tablename}
                                 </h3>
                               </div>
@@ -185,8 +185,9 @@ export default function SideBar({ children }) {
                     />
                     Configuración
                     {openConfigDialog && (
-                      <ChangeUserMode openParam={openConfigDialog} 
-                      setOpenParam={setOpenConfigDialog}
+                      <ChangeUserMode
+                        openParam={openConfigDialog}
+                        setOpenParam={setOpenConfigDialog}
                       />
                     )}
                   </button>
