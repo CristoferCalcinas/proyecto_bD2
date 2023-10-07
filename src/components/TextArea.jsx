@@ -106,7 +106,7 @@ export default function TextArea() {
         <label className="block text-xl font-medium leading-6 text-gray-900">
           Ingresa tu Consulta SQL
         </label>
-        <BotonEnviar onSubmitDatabase={onSubmitDatabase} />
+        <BotonEnviar onClick={onSubmitDatabase} />
       </div>
       <div className="mt-2 flex">
         <div className="w-10 text-right text-gray-800 container py-5 flex flex-col justify-start items-center font-bold">
