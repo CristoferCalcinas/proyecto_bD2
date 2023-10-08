@@ -106,6 +106,7 @@ export default function TextArea() {
         <label className="block text-xl font-medium leading-6 text-gray-900">
           Ingresa tu Consulta SQL
         </label>
+        <BotonEnviar onClick={()=>{settextArea("")}}></BotonEnviar>
         <BotonEnviar onClick={onSubmitDatabase} />
       </div>
       <div className="mt-2 flex">
