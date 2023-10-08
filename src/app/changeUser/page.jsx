@@ -1,21 +1,6 @@
 import AddUserDatabase from "@/components/AddUserDatabase";
-import { UserIcon, LockOpenIcon } from "@heroicons/react/20/solid";
+import ShowUsersDatabase from "@/components/ShowUsersDatabase";
 import Link from "next/link";
-
-const people = [
-  {
-    name: "Lindsay Walton",
-    role: "Front-end Developer",
-  },
-  {
-    name: "Courtney Henry",
-    role: "Designer",
-  },
-  {
-    name: "Tom Cook",
-    role: "Director of Product",
-  },
-];
 
 export default function page() {
   return (
@@ -54,44 +39,7 @@ export default function page() {
         <h3 className="text-sm font-medium text-gray-500">
           Usuarios existentes en la base de datos
         </h3>
-        <ul
-          role="list"
-          className="mt-4 divide-y divide-gray-200 border-b border-t border-gray-200"
-        >
-          {people.map((person, personIdx) => (
-            <li
-              key={personIdx}
-              className="flex items-center justify-between space-x-3 py-4"
-            >
-              <div className="flex min-w-0 flex-1 items-center space-x-3">
-                <div className="flex-shrink-0">
-                  <UserIcon className="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center ring-8 ring-white" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium text-gray-900">
-                    {person.name}
-                  </p>
-                  <p className="truncate text-sm font-medium text-gray-500">
-                    {person.role}
-                  </p>
-                </div>
-              </div>
-              <div className="flex-shrink-0">
-                <button
-                  type="button"
-                  className="inline-flex items-center gap-x-2 text-sm font-semibold leading-6 text-gray-900"
-                >
-                  <LockOpenIcon
-                    className="h-5 w-5 text-gray-400"
-                    aria-hidden="true"
-                  />
-                  Ingresar
-                  <span className="sr-only">{person.name}</span>
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <ShowUsersDatabase />
       </div>
 
       <div className="flex justify-center my-5">
