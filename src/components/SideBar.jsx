@@ -18,8 +18,8 @@ export default function SideBar({ children }) {
   const [openConfigDialog, setOpenConfigDialog] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [ObjectBrowserPanel, setObjectBrowserPanel] = useState({
-    dataNameDataBase: null,
-    dataTables: null,
+    dataNameDataBase: [],
+    dataTables: [],
   });
 
   const fetchData = async () => {
@@ -120,8 +120,8 @@ export default function SideBar({ children }) {
                     </h2>
 
                     <div className="my-5 flex justify-between">
-                      {ObjectBrowserPanel.dataNameDataBase &&
-                        ObjectBrowserPanel.dataNameDataBase.map(
+                      {Array.isArray(ObjectBrowserPanel.dataNameDataBase) ? (
+                        ObjectBrowserPanel?.dataNameDataBase?.map(
                           (data, index) => {
                             return (
                               <div key={index}>
@@ -134,7 +134,15 @@ export default function SideBar({ children }) {
                               </div>
                             );
                           }
-                        )}
+                        )
+                      ) : (
+                        <div>
+                          <h3 className="text-xl font-bold text-white tracking-widest flex justify-center items-center">
+                            NO DATA BASE
+                          </h3>
+                        </div>
+                      )}
+
                       <button
                         onClick={() => {
                           fetchData();
@@ -150,7 +158,7 @@ export default function SideBar({ children }) {
                       TABLAS:{" "}
                     </span>
                     <div className="space-y-2 flex flex-col mt-2">
-                      {ObjectBrowserPanel.dataTables &&
+                      {Array.isArray(ObjectBrowserPanel.dataTables) ? (
                         ObjectBrowserPanel.dataTables.map(
                           (dataTables, index) => {
                             return (
@@ -167,12 +175,19 @@ export default function SideBar({ children }) {
                               </div>
                             );
                           }
-                        )}
+                        )
+                      ) : (
+                        <div>
+                          <h3 className="text-xl font-bold text-white tracking-widest flex justify-center items-center">
+                            NO DATA TABLES
+                          </h3>
+                        </div>
+                      )}
                     </div>
                   </main>
                 </div>
 
-                <div className="mt-auto">
+                <div className="mt-auto flex justify-center">
                   <button
                     className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-indigo-700 hover:text-white"
                     onClick={() => {
