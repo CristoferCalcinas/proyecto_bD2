@@ -29,7 +29,6 @@ export default function ShowUsersDatabase() {
         className="mt-4 divide-y divide-gray-200 border-b border-t border-gray-200"
       >
         {users?.map((person, personIdx) => {
-          console.log(person);
           return (
             <li
               key={personIdx}
