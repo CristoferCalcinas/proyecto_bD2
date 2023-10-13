@@ -6,22 +6,26 @@ export const TextAreaSlice = createSlice({
         valueTextArea: 'SELECT * FROM estudiantes1;',
         error: false,
         messageError: "",
+<<<<<<< HEAD
         contentQuery: null,
         userDatabase: "postgres",
         passwordDatabase: "8066",
+=======
+        contentQuery: []
+>>>>>>> changeUserMode
     },
     reducers: {
         enviarConsulta: (state, { payload }) => {
             state.valueTextArea = payload;
             state.error = false;
             state.messageError = "";
-            state.contentQuery = null;
+            state.contentQuery = [];
         },
         errorServer: (state, { payload }) => {
             state.valueTextArea = "";
             state.error = payload.error;
             state.messageError = payload.data;
-            state.contentQuery = null;
+            state.contentQuery = [];
         },
         addContentQuery: (state, { payload }) => {
             state.valueTextArea = "";
