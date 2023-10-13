@@ -9,7 +9,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { showTablesDataBase } from "@/db/showTables";
 import { handleTableQuery } from "@/db/handleTableQuery";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addContentQuery } from "@/store/textAreaSlicel";
 import { toast } from "sonner";
 import ChangeUserMode from "./ChangeUserMode";
@@ -21,6 +21,8 @@ export default function SideBar({ children }) {
     dataNameDataBase: [],
     dataTables: [],
   });
+  const { userDatabase } = useSelector((state) => state.textArea);
+  console.log(userDatabase);
 
   const fetchData = async () => {
     try {
@@ -118,6 +120,14 @@ export default function SideBar({ children }) {
                     <h2 className="text-xl font-extrabold text-indigo-200 uppercase tracking-wider mb-10">
                       Base de Datos
                     </h2>
+                    <div className="flex justify-evenly items-center">
+                      <span className="text-xs font-normal tracking-normal text-white">
+                        Usuario:{" "}
+                      </span>
+                      <h3 className="text-xl font-bold text-white tracking-widest">
+                        {userDatabase}
+                      </h3>
+                    </div>
 
                     <div className="my-5 flex justify-between">
                       {Array.isArray(ObjectBrowserPanel.dataNameDataBase) ? (
