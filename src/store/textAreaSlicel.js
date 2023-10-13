@@ -7,7 +7,7 @@ export const TextAreaSlice = createSlice({
         error: false,
         messageError: "",
 <<<<<<< HEAD
-        contentQuery: null,
+        contentQuery: [],
         userDatabase: "postgres",
         passwordDatabase: "8066",
 =======
