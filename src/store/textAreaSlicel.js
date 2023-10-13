@@ -42,4 +42,4 @@ export const TextAreaSlice = createSlice({
 
 
 // Action creators are generated for each case reducer function
-export const { enviarConsulta, errorServer, addContentQuery } = TextAreaSlice.actions;
+export const { enviarConsulta, errorServer, addContentQuery, changeUserDatabase } = TextAreaSlice.actions;
