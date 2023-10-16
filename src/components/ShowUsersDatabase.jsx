@@ -86,14 +86,27 @@ export default function ShowUsersDatabase() {
 import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { useDispatch } from "react-redux";
+import { changeUserDatabase } from "@/store/textAreaSlicel";
+import { useRouter } from "next/navigation";
 
 function ModalChangeUser({ openP: { open, user }, setOpen }) {
   const [textInput, setTextInput] = useState("");
   const cancelButtonRef = useRef(null);
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const onInputChange = (event) => {
     setTextInput(event.target.value);
   };
+
+  const changeUserContext = (changeUser, changePassword) => {
+    setOpen({ open: false, user: "" });
+    dispatch(changeUserDatabase({ changeUser, changePassword }));
+    // usando el metodo navigate quiero moverme a la pagina principal
+    router.push("/");
+  };
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog
@@ -126,7 +139,7 @@ function ModalChangeUser({ openP: { open, user }, setOpen }) {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
-                <div className="sm:flex sm:items-start">
+                <div className="sm:flex sm:items-center">
                   <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
                     <ExclamationTriangleIcon
                       className="h-6 w-6 text-red-600"
@@ -136,9 +149,9 @@ function ModalChangeUser({ openP: { open, user }, setOpen }) {
                   <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                     <Dialog.Title
                       as="h3"
-                      className="text-base font-semibold leading-6 text-gray-900"
+                      className="text-base font-semibold leading-6 text-gray-900 text-center"
                     >
-                      Usuario : {user}
+                      Usuario {"=> " + user}
                     </Dialog.Title>
                     <div className="mt-2 space-y-5">
                       <p className="text-sm text-gray-500">
@@ -150,8 +163,8 @@ function ModalChangeUser({ openP: { open, user }, setOpen }) {
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-center my-5 space-x-2">
-                  <span>Contraceña: </span>
+                <div className="flex justify-center items-center my-5 space-x-2">
+                  <span className="text-sm font-semibold">Contraceña: </span>
                   <input
                     type="text"
                     className="rounded-lg border-2 border-red-500 focus:border-blue-500 outline-none px-2"
@@ -164,7 +177,7 @@ function ModalChangeUser({ openP: { open, user }, setOpen }) {
                   <button
                     // type="button"
                     className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:w-auto"
-                    onClick={() => setOpen({ open: false, user: "" })}
+                    onClick={() => changeUserContext(user, textInput)}
                     ref={cancelButtonRef}
                   >
                     Cambiar
