@@ -13,14 +13,19 @@ export default function ShowUsersDatabase() {
     open: false,
     user: "",
   });
+  const { userDatabase, passwordDatabase } = useSelector(
+    (state) => state.textArea
+  );
+
   useEffect(() => {
+    const consulta = `SELECT * FROM pg_catalog.pg_user;`;
     const getPeople = async () => {
       const resp = await fetch("http://localhost:3000/api/conectBack", {
         method: "POST",
         headers: {
-          "Content-Type": "text/plain",
+          "Content-Type": "application/json",
         },
-        body: `SELECT * FROM pg_catalog.pg_user;`,
+        body: JSON.stringify({ consulta, userDatabase, passwordDatabase }),
       });
       const data = await resp.json();
       setUsers(data); // Actualiza el estado con los datos de la respuesta
@@ -37,26 +42,27 @@ export default function ShowUsersDatabase() {
   };
 
   const reloadUsers = () => {
+    const consulta = `SELECT * FROM pg_catalog.pg_user;`;
     const getPeople = async () => {
       const resp = await fetch("http://localhost:3000/api/conectBack", {
         method: "POST",
         headers: {
-          "Content-Type": "text/plain",
+          "Content-Type": "application/json",
         },
-        body: `SELECT * FROM pg_catalog.pg_user;`,
+        body: JSON.stringify({ consulta, userDatabase, passwordDatabase }),
       });
       const data = await resp.json();
       setUsers(data); // Actualiza el estado con los datos de la respuesta
     };
 
     getPeople(); // Llama a la función al montar el componente
-  }
+  };
 
   return (
     <div>
       <div
         className="mt-1 flex justify-center group cursor-pointer"
-        onClick={reloadUsers}        
+        onClick={reloadUsers}
       >
         <ArrowPathIcon className="h-6 w-6 text-blue-900 group-hover:scale-125" />
       </div>
@@ -112,7 +118,7 @@ export default function ShowUsersDatabase() {
 import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { changeUserDatabase } from "@/store/textAreaSlicel";
 import { useRouter } from "next/navigation";
 

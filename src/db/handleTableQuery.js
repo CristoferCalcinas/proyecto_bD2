@@ -1,12 +1,13 @@
-export const handleTableQuery = async (tableName) => {
+export const handleTableQuery = async (tableName, userDatabase, passwordDatabase) => {
     const apiUrl = 'http://localhost:3000/api/conectBack';
+    const consulta = `SELECT * FROM ${tableName}`;
     try {
         const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
-                'Content-Type': 'text/plain',
+                "Content-Type": "application/json",
             },
-            body: `SELECT * FROM ${tableName};`,
+            body: JSON.stringify({ consulta, userDatabase, passwordDatabase }),
         });
         if (!response.ok) {
             throw new Error('Error en la solicitud de la API');

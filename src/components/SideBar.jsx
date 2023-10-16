@@ -21,12 +21,17 @@ export default function SideBar({ children }) {
     dataNameDataBase: [],
     dataTables: [],
   });
-  const { userDatabase } = useSelector((state) => state.textArea);
-  console.log(userDatabase);
+  const { userDatabase, passwordDatabase } = useSelector(
+    (state) => state.textArea
+  );
+  // console.log(userDatabase);
 
   const fetchData = async () => {
     try {
-      const { dataNameDataBase, dataTables } = await showTablesDataBase();
+      const { dataNameDataBase, dataTables } = await showTablesDataBase(
+        userDatabase,
+        passwordDatabase
+      );
       setObjectBrowserPanel({
         dataNameDataBase,
         dataTables,
@@ -42,7 +47,11 @@ export default function SideBar({ children }) {
   const dispatch = useDispatch();
 
   const handleConsult = async (tableName) => {
-    const resp = await handleTableQuery(tableName);
+    const resp = await handleTableQuery(
+      tableName,
+      userDatabase,
+      passwordDatabase
+    );
     dispatch(addContentQuery({ data: resp, error: false, messageError: "" }));
   };
   return (

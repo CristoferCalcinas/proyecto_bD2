@@ -1,7 +1,7 @@
 "use client";
 import { addContentQuery, errorServer } from "@/store/textAreaSlicel";
 import { enviarConsultaDB } from "@/store/thunks";
-import { useState } from "react";
+import { use, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BotonEnviar from "./BotonEnviar";
 import { toast } from "sonner";
@@ -11,6 +11,8 @@ export default function TextArea() {
   const { valueTextArea } = useSelector((state) => state.textArea);
   const dispatch = useDispatch();
   const [textArea, settextArea] = useState(valueTextArea);
+  const {userDatabase, passwordDatabase} = useSelector((state) => state.textArea);
+  // console.log(userDatabase, passwordDatabase)
 
   /**
    * Maneja el evento de cambio en el área de texto.
@@ -41,12 +43,36 @@ export default function TextArea() {
       console.log(consultasValidas);
 
       // enviar las consultas una por una al backend
+      // for (const consulta of consultasValidas) {
+      //   const response = await fetch("http://localhost:3000/api/conectBack", {
+      //     method: "POST",
+      //     body: consulta,
+      //     headers: {
+      //       "Content-Type": "text/plain",
+      //     },
+      //   });
+      //   if (response.ok) {
+      //     const data = await response.json();
+      //     if (typeof data === "string") {
+      //       dispatch(errorServer({ data, error: true }));
+      //       toast.error(data, { duration: 5000 });
+      //     } else {
+      //       dispatch(addContentQuery({ data, error: false, messageError: "" }));
+      //       toast.success("Consulta exitosa");
+      //     }
+      //     console.log(data); // Mostrar los datos en la consola
+      //   } else {
+      //     console.log("Error en la respuesta:", response.status);
+      //   }
+      // }
+
+      // usando el usuario y password para el envio de un json haciendo la peticion fetch
       for (const consulta of consultasValidas) {
         const response = await fetch("http://localhost:3000/api/conectBack", {
           method: "POST",
-          body: consulta,
+          body: JSON.stringify({consulta, userDatabase, passwordDatabase}),
           headers: {
-            "Content-Type": "text/plain",
+            "Content-Type": "application/json",
           },
         });
         if (response.ok) {
@@ -62,6 +88,7 @@ export default function TextArea() {
         } else {
           console.log("Error en la respuesta:", response.status);
         }
+        
       }
     } catch (error) {
       console.log(error);

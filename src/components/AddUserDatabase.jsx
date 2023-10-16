@@ -1,12 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { toast } from "sonner";
 
 export default function AddUserDatabase() {
   const [inputUser, setInputUser] = useState("");
   const [inputPassword, setInputPassword] = useState("");
-
+  const { userDatabase, passwordDatabase } = useSelector(
+    (state) => state.textArea
+  );
   const handleUserChange = (e) => {
     setInputUser(e.target.value);
   };
@@ -19,12 +22,13 @@ export default function AddUserDatabase() {
     e.preventDefault();
     if (inputUser === "") return;
     if (inputPassword === "") return;
+    const consulta = `CREATE USER ${inputUser} WITH PASSWORD '${inputPassword}';`;
     const resp = await fetch("http://localhost:3000/api/conectBack", {
       method: "POST",
       headers: {
-        "Content-Type": "text/plain",
+        "Content-Type": "application/json",
       },
-      body: `CREATE USER ${inputUser} WITH PASSWORD '${inputPassword}';`,
+      body: JSON.stringify({ consulta, userDatabase, passwordDatabase }),
     });
     // const data = await resp.json();
     // console.log(data)

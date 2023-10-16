@@ -1,13 +1,13 @@
 const apiUrl = 'http://localhost:3000/api/conectBack';
 
-const fetchData = async (query) => {
+const fetchData = async (consulta, userDatabase, passwordDatabase) => {
     try {
         const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
-                'Content-Type': 'text/plain',
+                "Content-Type": "application/json",
             },
-            body: query,
+            body: JSON.stringify({ consulta, userDatabase, passwordDatabase }),
         });
         if (!response.ok) {
             throw new Error('Error en la solicitud de la API');
@@ -20,14 +20,14 @@ const fetchData = async (query) => {
     }
 };
 
-export const showTablesDataBase = async () => {
+export const showTablesDataBase = async (userDatabase, passwordDatabase) => {
     const queryTables = "SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public';";
     const queryName = "SELECT current_database();";
 
     try {
         const [dataTables, dataNameDataBase] = await Promise.all([
-            fetchData(queryTables),
-            fetchData(queryName),
+            fetchData(queryTables, userDatabase, passwordDatabase),
+            fetchData(queryName, userDatabase, passwordDatabase),
         ]);
         return { dataTables, dataNameDataBase };
     } catch (error) {
