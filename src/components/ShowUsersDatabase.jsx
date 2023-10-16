@@ -1,7 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { UserIcon, LockOpenIcon } from "@heroicons/react/20/solid";
+import {
+  UserIcon,
+  LockOpenIcon,
+  ArrowPathIcon,
+} from "@heroicons/react/20/solid";
 
 export default function ShowUsersDatabase() {
   const [users, setUsers] = useState([]); // Estado para almacenar los usuarios
@@ -32,11 +36,33 @@ export default function ShowUsersDatabase() {
     });
   };
 
+  const reloadUsers = () => {
+    const getPeople = async () => {
+      const resp = await fetch("http://localhost:3000/api/conectBack", {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain",
+        },
+        body: `SELECT * FROM pg_catalog.pg_user;`,
+      });
+      const data = await resp.json();
+      setUsers(data); // Actualiza el estado con los datos de la respuesta
+    };
+
+    getPeople(); // Llama a la función al montar el componente
+  }
+
   return (
     <div>
+      <div
+        className="mt-1 flex justify-center group cursor-pointer"
+        onClick={reloadUsers}        
+      >
+        <ArrowPathIcon className="h-6 w-6 text-blue-900 group-hover:scale-125" />
+      </div>
       <ul
         role="list"
-        className="mt-4 divide-y divide-gray-200 border-b border-t border-gray-200"
+        className="mt-2 divide-y divide-gray-200 border-b border-t border-gray-200"
       >
         {users?.map((person, personIdx) => {
           return (
