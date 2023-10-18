@@ -1,7 +1,7 @@
 "use client";
 import { addContentQuery, errorServer } from "@/store/textAreaSlicel";
 import { enviarConsultaDB } from "@/store/thunks";
-import { use, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BotonEnviar from "./BotonEnviar";
 import { toast } from "sonner";
@@ -11,7 +11,9 @@ export default function TextArea() {
   const { valueTextArea } = useSelector((state) => state.textArea);
   const dispatch = useDispatch();
   const [textArea, settextArea] = useState(valueTextArea);
-  const {userDatabase, passwordDatabase} = useSelector((state) => state.textArea);
+  const { userDatabase, passwordDatabase } = useSelector(
+    (state) => state.textArea
+  );
   // console.log(userDatabase, passwordDatabase)
 
   /**
@@ -70,7 +72,7 @@ export default function TextArea() {
       for (const consulta of consultasValidas) {
         const response = await fetch("http://localhost:3000/api/conectBack", {
           method: "POST",
-          body: JSON.stringify({consulta, userDatabase, passwordDatabase}),
+          body: JSON.stringify({ consulta, userDatabase, passwordDatabase }),
           headers: {
             "Content-Type": "application/json",
           },
@@ -88,7 +90,6 @@ export default function TextArea() {
         } else {
           console.log("Error en la respuesta:", response.status);
         }
-        
       }
     } catch (error) {
       console.log(error);
@@ -133,8 +134,16 @@ export default function TextArea() {
         <label className="block text-xl font-medium leading-6 text-gray-900">
           Ingresa tu Consulta SQL
         </label>
-        <BotonEnviar onClick={()=>{settextArea("")}}></BotonEnviar>
-        <BotonEnviar onClick={onSubmitDatabase} />
+        <BotonEnviar
+          onClick={() => {
+            settextArea("");
+          }}
+          textButton={"Limpiar"}
+        ></BotonEnviar>
+        <BotonEnviar
+          onClick={onSubmitDatabase}
+          textButton={"Ejecutar/Enviar"}
+        />
       </div>
       <div className="mt-2 flex">
         <div className="w-10 text-right text-gray-800 container py-5 flex flex-col justify-start items-center font-bold">

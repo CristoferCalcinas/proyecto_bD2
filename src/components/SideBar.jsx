@@ -177,7 +177,8 @@ export default function SideBar({ children }) {
                       TABLAS:{" "}
                     </span>
                     <div className="space-y-2 flex flex-col mt-2">
-                      {Array.isArray(ObjectBrowserPanel.dataTables) ? (
+                      {Array.isArray(ObjectBrowserPanel.dataTables) &&
+                      ObjectBrowserPanel.dataTables.length > 0 ? (
                         ObjectBrowserPanel.dataTables.map(
                           (dataTables, index) => {
                             return (

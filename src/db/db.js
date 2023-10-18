@@ -17,7 +17,7 @@ export const userDatabase = (userName, password) => {
     const db_user = new Client({
         user: userName,
         host: 'localhost',
-        database: 'Ejercicio',
+        database: 'restaurante',
         password: password,
         port: 4321,
     });

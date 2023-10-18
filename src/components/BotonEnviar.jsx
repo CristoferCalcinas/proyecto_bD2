@@ -1,4 +1,4 @@
-export default function BotonEnviar({ onClick }) {
+export default function BotonEnviar({ onClick, textButton }) {
   return (
     <div>
       <button
@@ -6,7 +6,7 @@ export default function BotonEnviar({ onClick }) {
         className="rounded bg-indigo-50 px-2 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100"
         onClick={onClick}
       >
-        Ejecutar/Enviar
+        {textButton}
       </button>
     </div>
   );
