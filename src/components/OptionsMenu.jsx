@@ -6,7 +6,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function OptionsMenu({tableName}) {
+export default function OptionsMenu({ tableName }) {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -26,57 +26,59 @@ export default function OptionsMenu({tableName}) {
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-          <div className="py-1">
+          <div className="py-1 flex flex-col">
             <Menu.Item>
               {({ active }) => (
-                <a
-                  href="#"
+                <button
                   className={classNames(
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                     "block px-4 py-2 text-sm"
                   )}
                 >
-                  Account settings
-                </a>
+                  Eliminar Tabla {" => "}
+                  {tableName}
+                </button>
               )}
             </Menu.Item>
             <Menu.Item>
               {({ active }) => (
-                <a
+                <button
                   href="#"
                   className={classNames(
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                     "block px-4 py-2 text-sm"
                   )}
                 >
-                  Support
-                </a>
+                  Insertar Datos{" => "}
+                  {tableName}
+                </button>
               )}
             </Menu.Item>
             <Menu.Item>
               {({ active }) => (
-                <a
+                <button
                   href="#"
                   className={classNames(
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                     "block px-4 py-2 text-sm"
                   )}
                 >
-                  License
-                </a>
+                  Func !1
+                </button>
               )}
             </Menu.Item>
             <form method="POST" action="#">
               <Menu.Item>
                 {({ active }) => (
                   <button
+                    disabled
                     type="submit"
                     className={classNames(
                       active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                       "block w-full px-4 py-2 text-left text-sm"
                     )}
                   >
-                    Sign out
+                    Mas...
                   </button>
                 )}
               </Menu.Item>
