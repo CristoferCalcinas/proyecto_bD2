@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addContentQuery } from "@/store/textAreaSlicel";
 import { toast } from "sonner";
 import ChangeUserMode from "./ChangeUserMode";
+import OptionsMenu from "./OptionsMenu";
 
 export default function SideBar({ children }) {
   const [openConfigDialog, setOpenConfigDialog] = useState(false);
@@ -184,14 +185,21 @@ export default function SideBar({ children }) {
                             return (
                               <div
                                 key={index}
-                                className="rounded-md bg-white/10 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20 text-center"
-                                onClick={() =>
-                                  handleConsult(dataTables?.tablename)
-                                }
+                                className="rounded-md bg-white/10 text-sm font-semibold text-white shadow-sm hover:bg-white/20 text-center flex justify-between items-center"
                               >
-                                <h3 className="text-sm font-medium text-white tracking-widest">
-                                  {dataTables.tablename}
-                                </h3>
+                                <div
+                                  onClick={() =>
+                                    handleConsult(dataTables?.tablename)
+                                  }
+                                  className=" px-3.5 py-2.5  w-full h-full"
+                                >
+                                  <h3 className="text-sm font-medium text-white tracking-widest">
+                                    {dataTables?.tablename}
+                                  </h3>
+                                </div>
+                                <OptionsMenu
+                                  tableName={dataTables?.tablename}
+                                />
                               </div>
                             );
                           }
