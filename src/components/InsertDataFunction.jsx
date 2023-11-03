@@ -2,6 +2,8 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
+import { useSelector } from "react-redux";
+import { toast } from "sonner";
 
 export default function InsertDataFunction({
   openParam,
@@ -9,6 +11,9 @@ export default function InsertDataFunction({
   dataInputFunction,
 }) {
   const [inputValues, setInputValues] = useState({});
+  const { userDatabase, passwordDatabase } = useSelector(
+    (state) => state.textArea
+  );
 
   const handleInputChange = (e, columnName) => {
     setInputValues({
@@ -18,11 +23,37 @@ export default function InsertDataFunction({
   };
 
   // console.log("data", dataInputFunction);
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault(); // Evita la recarga de la página al enviar el formulario
     // Aquí puedes realizar cualquier acción necesaria con los datos ingresados
     console.log(inputValues);
     // Cerrar el modal u otras acciones
+
+    const keys = Object.keys(inputValues).join(",");
+    const values = Object.values(inputValues)
+      .map((value) => {
+        if (typeof value === "string") {
+          return `"${value}"`;
+        }
+        return value;
+      })
+      .join(",");
+    const sql = `INSERT INTO ${dataInputFunction?.dataTableName} (${keys}) VALUES (${values});`;
+
+    const resp = await fetch("http://localhost:3000/api/conectBack", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        consulta: sql,
+        userDatabase,
+        passwordDatabase,
+      }),
+    });
+    const data = await resp.json();
+    console.log(data);
+
     setOpenParam(false);
     // setInputValues({});
   };
@@ -66,10 +97,10 @@ export default function InsertDataFunction({
                         as="h3"
                         className="text-base font-semibold leading-6 text-gray-900"
                       >
-                        Insertar Datos
+                        Insertar Datos: {dataInputFunction?.dataTableName}
                       </Dialog.Title>
                       <div className="mt-2 flex flex-col gap-5">
-                        {dataInputFunction.map((data, index) => {
+                        {dataInputFunction?.dataInput?.map((data, index) => {
                           return (
                             <div key={index} className="flex justify-end">
                               <div className="mt-1 space-x-4">

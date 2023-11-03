@@ -19,7 +19,14 @@ import InsertDataFunction from "./InsertDataFunction";
 export default function SideBar({ children }) {
   const [openConfigDialog, setOpenConfigDialog] = useState(false);
   const [InsertData, setInsertData] = useState(false);
-  const [dataInputFunction, setDataInputFunction] = useState([]);
+  const [dataInputFunction, setDataInputFunction] = useState({
+    dataTableName: "",
+    dataInput: [],
+  });
+  // {
+  //  dataTableName: "",
+  //  dataInput: [],
+  // }
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [ObjectBrowserPanel, setObjectBrowserPanel] = useState({
     dataNameDataBase: [],
@@ -244,9 +251,8 @@ export default function SideBar({ children }) {
                 {InsertDataFunction && (
                   <InsertDataFunction
                     openParam={InsertData}
-                    setOpenParam={setInsertData}                    
+                    setOpenParam={setInsertData}
                     dataInputFunction={dataInputFunction}
-                    
                   />
                 )}
               </div>

@@ -35,7 +35,10 @@ export default function OptionsMenu({
     });
     const data = await resp.json();
     console.log(data);
-    setDataInputFunction(data);
+    //setDataInputFunction(data);
+    // Tomando en cuenta que el state cambio, a ese resultado se le harian nueva modificaciones
+    // nuevo estado: {dataTableName: "",dataInput: [],}
+    setDataInputFunction({ dataTableName: tableName, dataInput: data });
   };
   return (
     <Menu as="div" className="relative inline-block text-left">
