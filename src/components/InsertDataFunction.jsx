@@ -16,28 +16,32 @@ export default function InsertDataFunction({
   );
 
   const handleInputChange = (e, columnName) => {
+    const newValue =
+      e.target.type === "number" ? parseFloat(e.target.value) : e.target.value;
     setInputValues({
       ...inputValues,
-      [columnName]: e.target.value,
+      [columnName]: newValue,
     });
   };
 
   // console.log("data", dataInputFunction);
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Evita la recarga de la página al enviar el formulario
-    // Aquí puedes realizar cualquier acción necesaria con los datos ingresados
+    e.preventDefault();
     console.log(inputValues);
-    // Cerrar el modal u otras acciones
 
     const keys = Object.keys(inputValues).join(",");
     const values = Object.values(inputValues)
       .map((value) => {
         if (typeof value === "string") {
-          return `"${value}"`;
+          return `'${value}'`; // Envuelve los valores de texto entre comillas dobles
+        } else if (typeof value === "number") {
+          return value; // Deja los valores numéricos tal como están
+        } else {
+          return "null";
         }
-        return value;
       })
       .join(",");
+
     const sql = `INSERT INTO ${dataInputFunction?.dataTableName} (${keys}) VALUES (${values});`;
 
     const resp = await fetch("http://localhost:3000/api/conectBack", {
@@ -52,10 +56,15 @@ export default function InsertDataFunction({
       }),
     });
     const data = await resp.json();
-    console.log(data);
+    console.log(data)
+    if (data.length === 0) {
+      toast.success("Datos insertados correctamente");
+    } else {
+      toast.error("Error al insertar datos");
+    }
 
     setOpenParam(false);
-    // setInputValues({});
+    setInputValues({});
   };
   return (
     <Transition.Root show={openParam} as={Fragment}>
@@ -110,7 +119,11 @@ export default function InsertDataFunction({
 
                                 <input
                                   className="bg-blue-100 px-2 rounded-md"
-                                  type="text"
+                                  type={`${
+                                    data?.data_type == "character varying"
+                                      ? "text"
+                                      : "number"
+                                  }`}
                                   value={inputValues[data?.column_name] || ""}
                                   onChange={(e) =>
                                     handleInputChange(e, data?.column_name)
