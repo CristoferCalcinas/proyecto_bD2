@@ -14,9 +14,12 @@ import { addContentQuery } from "@/store/textAreaSlicel";
 import { toast } from "sonner";
 import ChangeUserMode from "./ChangeUserMode";
 import OptionsMenu from "./OptionsMenu";
+import InsertDataFunction from "./InsertDataFunction";
 
 export default function SideBar({ children }) {
   const [openConfigDialog, setOpenConfigDialog] = useState(false);
+  const [InsertData, setInsertData] = useState(false);
+  const [dataInputFunction, setDataInputFunction] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [ObjectBrowserPanel, setObjectBrowserPanel] = useState({
     dataNameDataBase: [],
@@ -199,6 +202,9 @@ export default function SideBar({ children }) {
                                 </div>
                                 <OptionsMenu
                                   tableName={dataTables?.tablename}
+                                  openParam={InsertData}
+                                  setOpenParam={setInsertData}
+                                  setDataInputFunction={setDataInputFunction}
                                 />
                               </div>
                             );
@@ -235,6 +241,14 @@ export default function SideBar({ children }) {
                     )}
                   </button>
                 </div>
+                {InsertDataFunction && (
+                  <InsertDataFunction
+                    openParam={InsertData}
+                    setOpenParam={setInsertData}                    
+                    dataInputFunction={dataInputFunction}
+                    
+                  />
+                )}
               </div>
             </nav>
           </div>

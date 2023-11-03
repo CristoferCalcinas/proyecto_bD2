@@ -1,12 +1,42 @@
+"use client";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
+import { useSelector } from "react-redux";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function OptionsMenu({ tableName }) {
+export default function OptionsMenu({
+  tableName,
+  openParam,
+  setOpenParam,
+  setDataInputFunction,
+}) {
+  const { userDatabase, passwordDatabase } = useSelector(
+    (state) => state.textArea
+  );
+  const handleDeleteTable = () => {};
+  const handleInsertData = async () => {
+    setOpenParam(true);
+    const consulta = `
+    SELECT column_name, data_type
+    FROM information_schema.columns
+    WHERE table_name = '${tableName}';
+    `;
+    console.log(tableName);
+    const resp = await fetch("http://localhost:3000/api/conectBack", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ consulta, userDatabase, passwordDatabase }),
+    });
+    const data = await resp.json();
+    console.log(data);
+    setDataInputFunction(data);
+  };
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -34,6 +64,7 @@ export default function OptionsMenu({ tableName }) {
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                     "block px-4 py-2 text-sm"
                   )}
+                  onClick={handleDeleteTable}
                 >
                   Eliminar Tabla {" => "}
                   {tableName}
@@ -43,11 +74,11 @@ export default function OptionsMenu({ tableName }) {
             <Menu.Item>
               {({ active }) => (
                 <button
-                  href="#"
                   className={classNames(
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                     "block px-4 py-2 text-sm"
                   )}
+                  onClick={handleInsertData}
                 >
                   Insertar Datos{" => "}
                   {tableName}
