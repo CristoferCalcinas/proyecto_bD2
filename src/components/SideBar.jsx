@@ -23,10 +23,7 @@ export default function SideBar({ children }) {
     dataTableName: "",
     dataInput: [],
   });
-  // {
-  //  dataTableName: "",
-  //  dataInput: [],
-  // }
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [ObjectBrowserPanel, setObjectBrowserPanel] = useState({
     dataNameDataBase: [],
@@ -35,7 +32,6 @@ export default function SideBar({ children }) {
   const { userDatabase, passwordDatabase } = useSelector(
     (state) => state.textArea
   );
-  // console.log(userDatabase);
 
   const fetchData = async () => {
     try {

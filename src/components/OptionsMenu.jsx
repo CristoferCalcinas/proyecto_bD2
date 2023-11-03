@@ -25,7 +25,6 @@ export default function OptionsMenu({
     FROM information_schema.columns
     WHERE table_name = '${tableName}';
     `;
-    console.log(tableName);
     const resp = await fetch("http://localhost:3000/api/conectBack", {
       method: "POST",
       headers: {
@@ -34,10 +33,7 @@ export default function OptionsMenu({
       body: JSON.stringify({ consulta, userDatabase, passwordDatabase }),
     });
     const data = await resp.json();
-    console.log(data);
-    //setDataInputFunction(data);
-    // Tomando en cuenta que el state cambio, a ese resultado se le harian nueva modificaciones
-    // nuevo estado: {dataTableName: "",dataInput: [],}
+
     setDataInputFunction({ dataTableName: tableName, dataInput: data });
   };
   return (

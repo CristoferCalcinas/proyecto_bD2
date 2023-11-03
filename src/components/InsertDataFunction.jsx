@@ -24,7 +24,6 @@ export default function InsertDataFunction({
     });
   };
 
-  // console.log("data", dataInputFunction);
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(inputValues);
@@ -33,9 +32,9 @@ export default function InsertDataFunction({
     const values = Object.values(inputValues)
       .map((value) => {
         if (typeof value === "string") {
-          return `'${value}'`; // Envuelve los valores de texto entre comillas dobles
+          return `'${value}'`;
         } else if (typeof value === "number") {
-          return value; // Deja los valores numéricos tal como están
+          return value;
         } else {
           return "null";
         }
@@ -56,11 +55,11 @@ export default function InsertDataFunction({
       }),
     });
     const data = await resp.json();
-    console.log(data)
+    console.log(data);
     if (data.length === 0) {
       toast.success("Datos insertados correctamente");
     } else {
-      toast.error("Error al insertar datos");
+      toast.error(data);
     }
 
     setOpenParam(false);
@@ -118,10 +117,12 @@ export default function InsertDataFunction({
                                 </span>
 
                                 <input
-                                  className="bg-blue-100 px-2 rounded-md"
+                                  className="bg-blue-100 px-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                                   type={`${
                                     data?.data_type == "character varying"
                                       ? "text"
+                                      : data?.data_type == "date"
+                                      ? "date"
                                       : "number"
                                   }`}
                                   value={inputValues[data?.column_name] || ""}
