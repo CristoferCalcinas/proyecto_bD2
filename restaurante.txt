@@ -1,0 +1,240 @@
+-- Tabla "ESTABLECIMIENTOS"
+CREATE TABLE IF NOT EXISTS establecimientos (
+  id_establecimientos INT PRIMARY KEY,
+  nombre_establecimiento VARCHAR(45),
+  telefono INT,
+  num_local INT,
+  categoria VARCHAR(45)
+);
+
+-- Tabla "restaurante"
+CREATE TABLE IF NOT EXISTS restaurante (
+  id_restaurante INT PRIMARY KEY,
+  nombre VARCHAR(45),
+  direccion VARCHAR(45),
+  codigo INT,
+  telefono INT
+);
+
+-- Tabla "cargo"
+CREATE TABLE IF NOT EXISTS cargo (
+  id_cargo INT PRIMARY KEY,
+  nombre VARCHAR(45),
+  descripcion VARCHAR(45)
+);
+
+-- Tabla "carta"
+CREATE TABLE IF NOT EXISTS carta (
+  id_carta INT PRIMARY KEY,
+  id_restaurante VARCHAR(45),
+  id_platos VARCHAR(45),
+  descripcion VARCHAR(45)
+);
+
+-- Tabla "personal"
+CREATE TABLE IF NOT EXISTS personal (
+  id_personal INT PRIMARY KEY,
+  nombre VARCHAR(45),
+  apellido_paterno VARCHAR(45),
+  apellido_materno VARCHAR(45),
+  sueldo INT,
+  turno VARCHAR(45),
+  cargo VARCHAR(45),
+  id_cargo INT REFERENCES cargo(id_cargo),
+  id_carta INT REFERENCES carta(id_carta)
+);
+
+-- Tabla "administrador"
+CREATE TABLE IF NOT EXISTS administrador (
+  id_administrador INT PRIMARY KEY,
+  nombre VARCHAR(45),
+  apellido_paterno VARCHAR(45),
+  direccion VARCHAR(45),
+  telefono INT,
+  id_restaurante INT REFERENCES restaurante(id_restaurante),
+  id_personal INT REFERENCES personal(id_personal)
+);
+
+-- Tabla "caja"
+CREATE TABLE IF NOT EXISTS caja (
+  id_caja INT PRIMARY KEY,
+  nombre_plato VARCHAR(45),
+  precio INT,
+  tipo_pago INT
+);
+
+-- Tabla "platos"
+CREATE TABLE IF NOT EXISTS platos (
+  id_platos INT PRIMARY KEY,
+  nombre VARCHAR(45),
+  descripcion VARCHAR(45),
+  precio INT
+);
+
+-- Tabla "venta_platos"
+CREATE TABLE IF NOT EXISTS venta_platos (
+  id_platos INT PRIMARY KEY,
+  fecha DATE,
+  hora INT,
+  monto INT,
+  tipo_pago INT,
+  id_plato INT REFERENCES platos(id_platos)
+);
+
+-- Tabla "pedidos_venta"
+CREATE TABLE IF NOT EXISTS pedidos_venta (
+  id_pedidos INT PRIMARY KEY,
+  fecha DATE,
+  monto_final INT,
+  id_venta_platos INT REFERENCES venta_platos(id_platos)
+);
+
+-- Tabla "clientes"
+CREATE TABLE IF NOT EXISTS clientes (
+  id_cliente VARCHAR(45) PRIMARY KEY,
+  nombre VARCHAR(45),
+  apellido_paterno VARCHAR(45),
+  apellido_materno VARCHAR(45),
+  direccion VARCHAR(45),
+  telefono INT,
+  tipo_pago VARCHAR(45),
+  id_pedidos INT REFERENCES pedidos_venta(id_pedidos)
+);
+
+-- Tabla "clientes_has_caja"
+CREATE TABLE IF NOT EXISTS clientes_has_caja (
+  id_cliente VARCHAR(45) REFERENCES clientes(id_cliente),
+  id_pedidos INT REFERENCES pedidos_venta(id_pedidos),
+  id_caja INT REFERENCES caja(id_caja),
+  PRIMARY KEY (id_cliente, id_pedidos, id_caja)
+);
+
+-- Tabla "ingredientes"
+CREATE TABLE IF NOT EXISTS ingredientes (
+  cod_ingredientes INT PRIMARY KEY,
+  nombre VARCHAR(45),
+  precio_compra DECIMAL(10, 0),
+  stock_almacen INT
+);
+
+-- Tabla "proveedores"
+CREATE TABLE IF NOT EXISTS proveedores (
+  id_proveedores INT PRIMARY KEY,
+  nombre VARCHAR(45),
+  direccion VARCHAR(45),
+  telefono INT,
+  email VARCHAR(45),
+  id_ingredientes INT REFERENCES ingredientes(cod_ingredientes)
+);
+
+-- Tabla "receta"
+CREATE TABLE IF NOT EXISTS receta (
+  id_receta INT PRIMARY KEY,
+  descripcion VARCHAR(45),
+  cantidad INT
+);
+
+-- Tabla "tipo_menu"
+CREATE TABLE IF NOT EXISTS tipo_menu (
+  id_tipo_menu INT PRIMARY KEY,
+  descripcion VARCHAR(45),
+  precio INT
+);
+
+
+
+-- Inserción de datos en la tabla "ESTABLECIMIENTOS"
+INSERT INTO establecimientos (id_establecimientos, nombre_establecimiento, telefono, num_local, categoria)
+VALUES
+  (1, 'Establecimiento1', 123456789, 101, 'Categoria1'),
+  (2, 'Establecimiento2', 987654321, 202, 'Categoria2');
+
+-- Inserción de datos en la tabla "restaurante"
+INSERT INTO restaurante (id_restaurante, nombre, direccion, codigo, telefono)
+VALUES
+  (1, 'RestauranteA', 'DirecciónA', 111, 111111111),
+  (2, 'RestauranteB', 'DirecciónB', 222, 222222222);
+
+-- Inserción de datos en la tabla "cargo"
+INSERT INTO cargo (id_cargo, nombre, descripcion)
+VALUES
+  (1, 'Cocinero', 'Prepara los platos'),
+  (2, 'Camarero', 'Atiende a los clientes');
+
+-- Inserción de datos en la tabla "carta"
+INSERT INTO carta (id_carta, id_restaurante, id_platos, descripcion)
+VALUES
+  (1, 'RestauranteA', 'PlatoA', 'Carta de Restaurante A'),
+  (2, 'RestauranteB', 'PlatoB', 'Carta de Restaurante B');
+
+-- Inserción de datos en la tabla "personal"
+INSERT INTO personal (id_personal, nombre, apellido_paterno, apellido_materno, sueldo, turno, cargo, id_cargo, id_carta)
+VALUES
+  (1, 'Juan', 'Pérez', 'Gómez', 2500, 'Mañana', 'Cocinero', 1, 1),
+  (2, 'Ana', 'López', 'Martínez', 2000, 'Tarde', 'Camarero', 2, 2);
+
+-- Inserción de datos en la tabla "administrador"
+INSERT INTO administrador (id_administrador, nombre, apellido_paterno, direccion, telefono, id_restaurante, id_personal)
+VALUES
+  (1, 'AdminA', 'AdminApellidoA', 'AdminDirecciónA', 333333333, 1, 1),
+  (2, 'AdminB', 'AdminApellidoB', 'AdminDirecciónB', 444444444, 2, 2);
+
+-- Inserción de datos en la tabla "caja"
+INSERT INTO caja (id_caja, nombre_plato, precio, tipo_pago)
+VALUES
+  (1, 'PlatoCaja1', 15, 1),
+  (2, 'PlatoCaja2', 20, 2);
+
+-- Inserción de datos en la tabla "platos"
+INSERT INTO platos (id_platos, nombre, descripcion, precio)
+VALUES
+  (1, 'Plato1', 'Descripción1', 10),
+  (2, 'Plato2', 'Descripción2', 12);
+
+-- Inserción de datos en la tabla "venta_platos"
+INSERT INTO venta_platos (id_platos, fecha, hora, monto, tipo_pago, id_plato)
+VALUES
+  (1, '2023-11-21', 12, 25, 1, 1),
+  (2, '2023-11-22', 18, 30, 2, 2);
+
+-- Inserción de datos en la tabla "pedidos_venta"
+INSERT INTO pedidos_venta (id_pedidos, fecha, monto_final, id_venta_platos)
+VALUES
+  (1, '2023-11-21', 25, 1),
+  (2, '2023-11-22', 30, 2);
+
+-- Inserción de datos en la tabla "clientes"
+INSERT INTO clientes (id_cliente, nombre, apellido_paterno, apellido_materno, direccion, telefono, tipo_pago, id_pedidos)
+VALUES
+  ('Cliente1', 'Carlos', 'González', 'López', 'Dirección1', 555555555, 'Efectivo', 1),
+  ('Cliente2', 'María', 'Rodríguez', 'Sánchez', 'Dirección2', 666666666, 'Tarjeta', 2);
+
+-- Inserción de datos en la tabla "clientes_has_caja"
+INSERT INTO clientes_has_caja (id_cliente, id_pedidos, id_caja)
+VALUES
+  ('Cliente1', 1, 1),
+  ('Cliente2', 2, 2);
+
+-- Inserción de datos en la tabla "ingredientes"
+INSERT INTO ingredientes (cod_ingredientes, nombre, precio_compra, stock_almacen)
+VALUES
+  (1, 'Ingrediente1', 5, 100),
+  (2, 'Ingrediente2', 8, 50);
+
+-- Inserción de datos en la tabla "proveedores"
+INSERT INTO proveedores (id_proveedores, nombre, direccion, telefono, email, id_ingredientes)
+VALUES
+  (1, 'Proveedor1', 'DirecciónProv1', 777777777, 'proveedor1@email.com', 1),
+  (2, 'Proveedor2', 'DirecciónProv2', 888888888, 'proveedor2@email.com', 2);
+
+-- Inserción de datos en la tabla "receta"
+INSERT INTO receta (id_receta, descripcion, cantidad)
+VALUES
+  (1, 'Receta1', 3),
+  (2, 'Receta2', 2);
+
+-- Inserción de datos en la tabla "tipo_menu"
+INSERT INTO tipo_menu (id_tipo_menu, descripcion, precio)
+VALUES
+  (1, 'MenuEconomico', 20),
+  (2, 'MenuDeluxe', 40);

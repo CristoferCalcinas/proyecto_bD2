@@ -1,0 +1,95 @@
+-- Inserción de datos en la tabla "ESTABLECIMIENTOS"
+INSERT INTO establecimientos (id_establecimientos, nombre_establecimiento, telefono, num_local, categoria)
+VALUES
+  (3, 'Establecimiento3', 555555555, 303, 'Categoria3'),
+  (4, 'Establecimiento4', 444444444, 404, 'Categoria4');
+
+-- Inserción de datos en la tabla "restaurante"
+INSERT INTO restaurante (id_restaurante, nombre, direccion, codigo, telefono)
+VALUES
+  (3, 'RestauranteC', 'DirecciónC', 333, 333333333),
+  (4, 'RestauranteD', 'DirecciónD', 444, 444444444);
+
+-- Inserción de datos en la tabla "cargo"
+INSERT INTO cargo (id_cargo, nombre, descripcion)
+VALUES
+  (3, 'Mesero', 'Atiende a los clientes en las mesas'),
+  (4, 'Bartender', 'Prepara y sirve bebidas');
+
+-- Inserción de datos en la tabla "carta"
+INSERT INTO carta (id_carta, id_restaurante, id_platos, descripcion)
+VALUES
+  (3, 'RestauranteC', 'PlatoC', 'Carta de Restaurante C'),
+  (4, 'RestauranteD', 'PlatoD', 'Carta de Restaurante D');
+
+-- Inserción de datos en la tabla "personal"
+INSERT INTO personal (id_personal, nombre, apellido_paterno, apellido_materno, sueldo, turno, cargo, id_cargo, id_carta)
+VALUES
+  (3, 'Luis', 'García', 'Martínez', 2200, 'Tarde', 'Mesero', 3, 3),
+  (4, 'Elena', 'Fernández', 'Gómez', 2400, 'Noche', 'Bartender', 4, 4);
+
+-- Inserción de datos en la tabla "administrador"
+INSERT INTO administrador (id_administrador, nombre, apellido_paterno, direccion, telefono, id_restaurante, id_personal)
+VALUES
+  (3, 'AdminC', 'AdminApellidoC', 'AdminDirecciónC', 555555555, 3, 3),
+  (4, 'AdminD', 'AdminApellidoD', 'AdminDirecciónD', 444444444, 4, 4);
+
+-- Inserción de datos en la tabla "caja"
+INSERT INTO caja (id_caja, nombre_plato, precio, tipo_pago)
+VALUES
+  (3, 'PlatoCaja3', 18, 1),
+  (4, 'PlatoCaja4', 25, 2);
+
+-- Inserción de datos en la tabla "platos"
+INSERT INTO platos (id_platos, nombre, descripcion, precio)
+VALUES
+  (3, 'Plato3', 'Descripción3', 15),
+  (4, 'Plato4', 'Descripción4', 22);
+
+-- Inserción de datos en la tabla "venta_platos"
+INSERT INTO venta_platos (id_platos, fecha, hora, monto, tipo_pago, id_plato)
+VALUES
+  (3, '2023-11-23', 20, 35, 1, 3),
+  (4, '2023-11-24', 21, 40, 2, 4);
+
+-- Inserción de datos en la tabla "pedidos_venta"
+INSERT INTO pedidos_venta (id_pedidos, fecha, monto_final, id_venta_platos)
+VALUES
+  (3, '2023-11-23', 35, 3),
+  (4, '2023-11-24', 40, 4);
+
+-- Inserción de datos en la tabla "clientes"
+INSERT INTO clientes (id_cliente, nombre, apellido_paterno, apellido_materno, direccion, telefono, tipo_pago, id_pedidos)
+VALUES
+  ('Cliente3', 'Roberto', 'Gómez', 'Fernández', 'Dirección3', 777777777, 'Efectivo', 3),
+  ('Cliente4', 'Laura', 'Pérez', 'Sánchez', 'Dirección4', 888888888, 'Tarjeta', 4);
+
+-- Inserción de datos en la tabla "clientes_has_caja"
+INSERT INTO clientes_has_caja (id_cliente, id_pedidos, id_caja)
+VALUES
+  ('Cliente3', 3, 3),
+  ('Cliente4', 4, 4);
+
+-- Inserción de datos en la tabla "ingredientes"
+INSERT INTO ingredientes (cod_ingredientes, nombre, precio_compra, stock_almacen)
+VALUES
+  (3, 'Ingrediente3', 7, 80),
+  (4, 'Ingrediente4', 9, 60);
+
+-- Inserción de datos en la tabla "proveedores"
+INSERT INTO proveedores (id_proveedores, nombre, direccion, telefono, email, id_ingredientes)
+VALUES
+  (3, 'Proveedor3', 'DirecciónProv3', 999999999, 'proveedor3@email.com', 3),
+  (4, 'Proveedor4', 'DirecciónProv4', 1010101010, 'proveedor4@email.com', 4);
+
+-- Inserción de datos en la tabla "receta"
+INSERT INTO receta (id_receta, descripcion, cantidad)
+VALUES
+  (3, 'Receta3', 4),
+  (4, 'Receta4', 1);
+
+-- Inserción de datos en la tabla "tipo_menu"
+INSERT INTO tipo_menu (id_tipo_menu, descripcion, precio)
+VALUES
+  (3, 'MenuEspecial', 30),
+  (4, 'MenuInfantil', 15);
